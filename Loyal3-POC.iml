@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lib/antlr-3.4-complete.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/dom4j-1.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/hibernate-commons-annotations-4.0.1.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/hibernate-core-4.1.7.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/hibernate-entitymanager-3.6.7.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/hibernate-validator-4.2.0.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javassist-3.15.0-GA.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jboss-logging-3.1.0.GA.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/joda-time-1.5.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/log4j-1.2.15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.22-bin.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/slf4j-api-1.7.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/slf4j-log4j12-1.7.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/scalatest_2.9.0-1.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/spring-security-core-3.0.5.RELEASE.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/loyal3_core_R135.jar!/" />
+    <conelement value="sbt.eclipse.CLASSPATH_CONTAINER" />
+    <conelement value="org.scala-ide.sdt.launching.SCALA_CONTAINER" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt.eclipse.CLASSPATH_CONTAINER" level="application" />
+    <orderEntry type="library" name="org.scala-ide.sdt.launching.SCALA_CONTAINER" level="application" />
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="module" module-name="Dispatch-Http" />
+    <orderEntry type="module-library" exported="">
+      <library name="antlr-3.4-complete.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/antlr-3.4-complete.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="dom4j-1.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/dom4j-1.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="hibernate-commons-annotations-4.0.1.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-commons-annotations-4.0.1.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="hibernate-core-4.1.7.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-core-4.1.7.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="hibernate-entitymanager-3.6.7.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-entitymanager-3.6.7.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="hibernate-jpa-2.0-api-1.0.1.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="hibernate-validator-4.2.0.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-validator-4.2.0.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="javassist-3.15.0-GA.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javassist-3.15.0-GA.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="jboss-logging-3.1.0.GA.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss-logging-3.1.0.GA.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="jboss-transaction-api_1.1_spec-1.0.0.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="joda-time-1.5.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/joda-time-1.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="log4j-1.2.15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/log4j-1.2.15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="mysql-connector-java-5.1.22-bin.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.22-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="slf4j-api-1.7.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slf4j-api-1.7.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="slf4j-log4j12-1.7.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slf4j-log4j12-1.7.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="scalatest_2.9.0-1.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/scalatest_2.9.0-1.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="spring-security-core-3.0.5.RELEASE.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/spring-security-core-3.0.5.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="loyal3_core_R135.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/loyal3_core_R135.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/antlr-2.7.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-core-3.5.2-Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://C:/scala-2.9.2" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://C:/scala-2.9.2/bin" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="bin" level="project" />
+  </component>
+</module>
+
