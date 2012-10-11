@@ -19,6 +19,7 @@ import com.loyal3.model.email.BouncedEmail
 import org.joda.time.DateTime
 import _root_.com.loyal3.model.email.MongoEmailDAO
 import com.loyal3.model.email.MongoEmailDAO
+import org.hibernate.FlushMode
 
 
 
@@ -38,7 +39,7 @@ class SocketLabsQueryService extends Object with Logging{
   }
 
   private def getMessagesData(methodName:String)={
-    val lastCallSocketLabsApiCall:Option[SocketLabsApiCall]	=	lastCallOf(methodName)
+    val lastCallSocketLabsApiCall:SocketLabsApiCall	=	lastCallOf(methodName)
     val windowParams: Map[String, String]	=	calculateWindowArgs(lastCallSocketLabsApiCall)
     val socketLabsApiCall:SocketLabsApiCall	=	createApiCall(methodName,windowParams)
     performApiCall(methodName,windowParams,socketLabsApiCall)
@@ -55,7 +56,7 @@ class SocketLabsQueryService extends Object with Logging{
       println("request url: "+request.to_uri.toURL().toString())
       //val res: Promise[Either[Throwable, xml.Elem]]	=	Http(request).either
       xml	=	http(request >~ { _.getLines.mkString })
-      println("xml:"+xml)
+      //println("xml:"+xml)
       socketLabsApiCall.setRawResponse(xml)
       socketLabsApiCall.setHttpStatus("200")
     }catch{
@@ -93,28 +94,43 @@ class SocketLabsQueryService extends Object with Logging{
       socketLabsApiCall.setIndexVal(Some(windowParams.get("index").get.toLong))
       socketLabsApiCall.setMethodName(methodName)
        val session = HibernateUtil.factory.openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(socketLabsApiCall);
+        val tx	=	session.beginTransaction();
+        //session.setFlushMode(FlushMode.AUTO)
+        session.save(socketLabsApiCall);
         session.flush();
+        tx.commit()
         session.close();
     }catch{
       case ex:Exception => error("Failed to create_api_call : "+ex.getMessage())
       ex.printStackTrace()
     }
+    println("create id = "+socketLabsApiCall.getId())
     socketLabsApiCall
   }
 
   private def updateAttributes(socketLabsApiCall: SocketLabsApiCall)={
+    try{
+      println("update id = "+socketLabsApiCall.getId())
     val session = HibernateUtil.factory.openSession();
-    session.beginTransaction();
+    val tx	=	session.beginTransaction();
+    //session.setFlushMode(FlushMode.AUTO)
     session.saveOrUpdate(socketLabsApiCall);
+    //session.merge(socketLabsApiCall);
     session.flush();
+    tx.commit()
+    session.close();
+    }catch{
+      case ex:Exception => error("Failed to updateAttributes : "+ex.getMessage())
+      ex.printStackTrace()
+    }
   }
 
 
   private def processApiResponse(socketLabsApiCall:SocketLabsApiCall){
     debug("raw response : "+socketLabsApiCall.getRawResponse())
-    println("raw response : "+socketLabsApiCall.getRawResponse())
+    //println("raw response : "+socketLabsApiCall.getRawResponse())
+    if(socketLabsApiCall.getHttpStatus()==null)
+      socketLabsApiCall.setCount(Some(0))
     updateAttributes(socketLabsApiCall);
     if(!socketLabsApiCall.getRawResponse().isEmpty()){
 	    val responseXml: scala.xml.Elem	=	XML.loadString(socketLabsApiCall.getRawResponse())
@@ -122,13 +138,14 @@ class SocketLabsQueryService extends Object with Logging{
 	    println("api_count = "+api_count)
 	    if (api_count>0)  {
 	      val seq: Seq[scala.xml.NodeSeq]	=	extractItemsArray(responseXml)
-	      println(seq)
+	      //println(seq)
 	      val validItemsList:ListBuffer[scala.xml.NodeSeq]=extractValidItems(seq)
 	      if (socketLabsApiCall.getMethodName()=="messagesFailed")
 	        recordDeliveryFailure(socketLabsApiCall, validItemsList, api_count)
 	      else if (socketLabsApiCall.getMethodName()=="messagesFblReported")
 	        recordFeedback(socketLabsApiCall, validItemsList, api_count)
 	    }
+	    
   	}
   }
 
@@ -148,7 +165,8 @@ class SocketLabsQueryService extends Object with Logging{
       //val mongoEmailDao =	new com.loyal3.model.email.MongoEmailDAO
 
       //new com.loyal3.model.email.MongoEmailDAO$.MongoEmailDAO
-
+      socketLabsApiCall.setCount(Some(api_count))
+      updateAttributes(socketLabsApiCall);
     })
 
   }
@@ -167,7 +185,8 @@ class SocketLabsQueryService extends Object with Logging{
       val messageId	=	item \\ "MessageId"
       bouncedEmail.setId(messageId.text)
       //val mongoEmailDao =	new MongoEmailDAO
-
+      socketLabsApiCall.setCount(Some(api_count))
+      updateAttributes(socketLabsApiCall);
     })
 
   }
@@ -202,13 +221,13 @@ class SocketLabsQueryService extends Object with Logging{
         validItems+=item
     }
     debug("validItems ="+validItems)
-    println("validItems ="+validItems)
+    //println("validItems ="+validItems)
     validItems
   }
 
   def message_namespace= "de"
 
-  private def lastCallOf(method_name:String):Option[SocketLabsApiCall] = {
+  private def lastCallOf(method_name:String) = {
     var socketLabsApiCall:SocketLabsApiCall	=	null
     try{
       val session = HibernateUtil.factory.openSession();
@@ -221,40 +240,40 @@ class SocketLabsQueryService extends Object with Logging{
       case ex:Exception => error("Failed to execute lastCallOf : "+ex.getMessage())
       ex.printStackTrace()
     }
-    Some(socketLabsApiCall)
+    socketLabsApiCall
   }
 
-  private def calculateWindowArgs(socketLabsApiCall:Option[SocketLabsApiCall]):Map[String, String] ={
+  private def calculateWindowArgs(socketLabsApiCall:SocketLabsApiCall):Map[String, String] ={
     var start_date=""
     var end_date=""
     var index	=""
     var windowArgsMap:Map[String,String]	=	new HashMap[String, String]
     try{
       println("socketLabsApiCall : "+socketLabsApiCall)
-      if(socketLabsApiCall.get==null)
+      if(socketLabsApiCall==null)
         windowArgsMap+=("startDate"->SocketLabsQueryService.defaultDate(),
           "endDate"->SocketLabsQueryService.today(),
           "index"->"0")
-      else if(socketLabsApiCall.get.getHttpStatus().isEmpty() || socketLabsApiCall.get.getCount().isEmpty)//previous call not fully processed
-        windowArgsMap+=("startDate"->socketLabsApiCall.get.getStartDate().toString(),
+      else if(socketLabsApiCall.getHttpStatus()==null || socketLabsApiCall.getCount()==null)//previous call not fully processed
+        windowArgsMap+=("startDate"->socketLabsApiCall.getStartDate().toString(),
           "endDate"->SocketLabsQueryService.today().toString(),
-          "index"->socketLabsApiCall.get.getIndexVal().toString())
+          "index"->socketLabsApiCall.getIndexVal().get.toString())
       else{
-        if(socketLabsApiCall.get.getStartDate().toString().isEmpty()){
+        if(!socketLabsApiCall.getStartDate().toString().isEmpty()){
           debug("default date : "+SocketLabsQueryService.defaultDate().toString())
           println("default date : "+SocketLabsQueryService.defaultDate().toString())
           start_date	=	SocketLabsQueryService.defaultDate().toString()
         }
         else
-          start_date	=	socketLabsApiCall.get.getStartDate().toString()
+          start_date	=	socketLabsApiCall.getStartDate().toString()
 
-        if((!socketLabsApiCall.get.getStartDate().toString().isEmpty()) &&
-          (socketLabsApiCall.get.getEndDate().getTime()-socketLabsApiCall.get.getStartDate().getTime())>0 &&
-          socketLabsApiCall.get.getCount().get<SocketLabsQueryService.max_items_returned_per_call){
-          start_date	=	socketLabsApiCall.get.getEndDate().toString()
+        if((!socketLabsApiCall.getStartDate().toString().isEmpty()) &&
+          (socketLabsApiCall.getEndDate().getTime()-socketLabsApiCall.getStartDate().getTime())>0 &&
+          socketLabsApiCall.getCount().get<SocketLabsQueryService.max_items_returned_per_call){
+          start_date	=	socketLabsApiCall.getEndDate().toString()
           index	=	"0";
         }else
-          index	=	(socketLabsApiCall.get.getIndexVal().get + socketLabsApiCall.get.getCount().get).toString()
+          index	=	(socketLabsApiCall.getIndexVal().get + socketLabsApiCall.getCount().get).toString()
         windowArgsMap+=("startDate"->start_date,
           "endDate"->end_date,
           "index"->index)
